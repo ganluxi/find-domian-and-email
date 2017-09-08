@@ -61,6 +61,14 @@ ip route add    64.18.0.0/20   dev ppp0
 def main():
     import SqlManager
     sql_manager = SqlManager.Sqlmanger()
+    domains=sql_manager.get_match_domains()#获取未使用的关键字
+    for domain in domains:
+        domain=domain.replace('www.','')
+        search_word=domain+" keyword"
+        print 'start vpn... for search email  ----'+keyword
+    
+    
+    
 
     keywords = sql_manager.getkeywords()  # 获取未使用的关键字
 
