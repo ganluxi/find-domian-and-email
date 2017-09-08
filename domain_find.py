@@ -62,11 +62,37 @@ def main():
     import SqlManager
     sql_manager = SqlManager.Sqlmanger()
     domains=sql_manager.get_match_domains()#获取未使用的关键字
+    
     for domain in domains:
         domain=domain.replace('www.','')
-        search_word=domain+" keyword"
+        keyword=domain+" keyword"
         print 'start vpn... for search email  ----'+keyword
-    
+        do_cmd('/usr/bin/poff pptp01')
+        _do_cmd('/usr/bin/pon pptp01')
+        time.sleep(10)
+        _do_cmd('ip route add    64.18.0.0/20   dev ppp0')
+        _do_cmd("ip route add    64.233.160.0/19  dev ppp0")
+        _do_cmd("ip route add    66.102.0.0/20  dev ppp0")
+        _do_cmd("ip route add    66.249.80.0/20  dev ppp0")
+        _do_cmd("ip route add    72.14.192.0/18  dev ppp0")
+        _do_cmd("ip route add    74.125.0.0/16  dev ppp0")
+        _do_cmd("ip route add    108.177.8.0/21  dev ppp0")
+        _do_cmd("ip route add    173.194.0.0/16  dev ppp0")
+        _do_cmd("ip route add    207.126.144.0/20  dev ppp0")
+        _do_cmd("ip route add    209.85.128.0/17  dev ppp0")
+        _do_cmd("ip route add    216.58.192.0/19  dev ppp0")
+        _do_cmd("ip route add    216.239.32.0/19  dev ppp0")
+
+
+        try:
+            spiser_email(search_word)
+        except Exception as e:
+            print e
+            continue
+        _do_cmd('/usr/bin/poff pptp01')
+        time.sleep(1)
+        sql_manager.match_domain_check(keyword)
+        sql_manager.commit()
     
     
 
